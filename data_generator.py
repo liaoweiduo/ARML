@@ -56,6 +56,38 @@ class DataGenerator(object):
             self.metaval_character_folders = metaval_folders
             self.rotations = config.get('rotations', [0])
 
+        elif FLAGS.datasource == 'BA':
+            self.num_classes = config.get('num_classes', FLAGS.num_classes)
+            self.img_size = config.get('img_size', (84, 84))
+            self.dim_input = np.prod(self.img_size) * 3
+            self.dim_output = self.num_classes
+            self.plainmulti = ['CUB_Bird', 'FGVC_Aircraft']
+            metatrain_folders, metaval_folders = [], []
+            for eachdataset in self.plainmulti:
+                metatrain_folders.append(
+                    [os.path.join('{0}/plainmulti/{1}/train'.format(FLAGS.datadir, eachdataset), label) \
+                     for label in os.listdir('{0}/plainmulti/{1}/train'.format(FLAGS.datadir, eachdataset)) \
+                     if
+                     os.path.isdir(os.path.join('{0}/plainmulti/{1}/train'.format(FLAGS.datadir, eachdataset), label)) \
+                     ])
+                if FLAGS.test_set:
+                    metaval_folders.append(
+                        [os.path.join('{0}/plainmulti/{1}/test'.format(FLAGS.datadir, eachdataset), label) \
+                         for label in os.listdir('{0}/plainmulti/{1}/test'.format(FLAGS.datadir, eachdataset)) \
+                         if os.path.isdir(
+                            os.path.join('{0}/plainmulti/{1}/test'.format(FLAGS.datadir, eachdataset), label)) \
+                         ])
+                else:
+                    metaval_folders.append(
+                        [os.path.join('{0}/plainmulti/{1}/val'.format(FLAGS.datadir, eachdataset), label) \
+                         for label in os.listdir('{0}/plainmulti/{1}/val'.format(FLAGS.datadir, eachdataset)) \
+                         if os.path.isdir(
+                            os.path.join('{0}/plainmulti/{1}/val'.format(FLAGS.datadir, eachdataset), label)) \
+                         ])
+            self.metatrain_character_folders = metatrain_folders
+            self.metaval_character_folders = metaval_folders
+            self.rotations = config.get('rotations', [0])
+
         elif FLAGS.datasource == 'artmulti':
             self.num_classes = config.get('num_classes', FLAGS.num_classes)
             self.img_size = config.get('img_size', (84, 84))
