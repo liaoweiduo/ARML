@@ -61,10 +61,11 @@ class MetaGraph(object):
         self.GCN = GraphConvolution(self.hidden_dim, name='data_gcn')
 
     def model(self, inputs):
-        if FLAGS.datasource in ['plainmulti', 'artmulti']:
-            sigma = 8.0
-        elif FLAGS.datasource in ['2D']:
+        if FLAGS.datasource in ['2D']:
             sigma = 2.0
+        # if FLAGS.datasource in ['plainmulti', 'artmulti']:
+        else:
+            sigma = 8.0
 
         cross_graph = tf.nn.softmax(
             (-tf.reduce_sum(tf.square(inputs - self.node_cluster_center), axis=-1) / (2.0 * sigma)), axis=0)

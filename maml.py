@@ -27,7 +27,8 @@ class MAML:
                                             name='lstm_ae_graph')
         if FLAGS.datasource in ['2D']:
             self.metagraph = MetaGraph(input_dim=FLAGS.sync_filters, hidden_dim=FLAGS.sync_filters)
-        elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+        # elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+        else:
             self.metagraph = MetaGraph(input_dim=FLAGS.hidden_dim, hidden_dim=FLAGS.hidden_dim)
 
         if FLAGS.datasource in ['2D']:
@@ -35,7 +36,8 @@ class MAML:
             self.loss_func = mse
             self.forward = self.forward_fc
             self.construct_weights = self.construct_fc_weights
-        elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+        # elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+        else:
             self.loss_func = xent
             self.classification = True
             self.dim_hidden = FLAGS.num_filters
@@ -45,8 +47,8 @@ class MAML:
             self.img_size = int(np.sqrt(self.dim_input / self.channels))
             self.image_embed = ImageEmbedding(hidden_num=FLAGS.task_embedding_num_filters, channels=self.channels,
                                               conv_initializer=tf.truncated_normal_initializer(stddev=0.04))
-        else:
-            raise ValueError('Unrecognized data source.')
+        # else:
+        #     raise ValueError('Unrecognized data source.')
 
     def construct_model(self, input_tensors=None, prefix='metatrain_'):
         if input_tensors is None:
@@ -85,7 +87,8 @@ class MAML:
                             assign_mat = tf.nn.softmax(tf.layers.dense(input_task_emb, units=FLAGS.num_classes), dim=1)
                             input_task_emb_cat = tf.matmul(tf.transpose(assign_mat, perm=[1, 0]), input_task_emb)
 
-                elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+                # elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+                else:
                     input_task_emb = self.image_embed.model(tf.reshape(inputa,
                                                                        [-1, self.img_size, self.img_size,
                                                                         self.channels]))
@@ -106,7 +109,8 @@ class MAML:
                 if FLAGS.datasource in ['2D']:
                     task_embed_vec, task_emb_loss = self.lstmae.model(input_task_emb)
                     propagate_knowledge = self.metagraph.model(input_task_emb_cat)
-                elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+                # elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+                else:
                     task_embed_vec, task_emb_loss = self.lstmae.model(input_task_emb_cat)
                     propagate_knowledge = self.metagraph.model(proto_emb)
 

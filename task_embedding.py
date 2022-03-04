@@ -22,7 +22,8 @@ class LSTMAutoencoder(object):
             self.elem_num_init = 2
             self.elem_num=FLAGS.sync_filters
 
-        elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+        # elif FLAGS.datasource in ['plainmulti', 'artmulti']:
+        else:
             self.elem_num = input_num
 
         self.dec_weight = tf.Variable(tf.truncated_normal([self.hidden_num,
