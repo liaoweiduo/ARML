@@ -163,7 +163,7 @@ def main():
     dim_output = data_generator.dim_output
     dim_input = data_generator.dim_input
 
-    if FLAGS.datasource in ['plainmulti', 'artmulti']:
+    if FLAGS.datasource in ['plainmulti', 'artmulti', 'BA']:
         num_classes = data_generator.num_classes
         if FLAGS.train:
             random.seed(5)
@@ -171,6 +171,9 @@ def main():
                 image_tensor, label_tensor = data_generator.make_data_tensor_plainmulti()
             elif FLAGS.datasource == 'artmulti':
                 image_tensor, label_tensor = data_generator.make_data_tensor_artmulti()
+            elif FLAGS.datasource == 'BA':
+                image_tensor, label_tensor = data_generator.make_data_tensor_BA()
+
             inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
             inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
             labela = tf.slice(label_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
@@ -182,6 +185,9 @@ def main():
                 image_tensor, label_tensor = data_generator.make_data_tensor_plainmulti(train=False)
             elif FLAGS.datasource == 'artmulti':
                 image_tensor, label_tensor = data_generator.make_data_tensor_artmulti(train=False)
+            elif FLAGS.datasource == 'BA':
+                image_tensor, label_tensor = data_generator.make_data_tensor_BA(train=False)
+
             inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
             inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
             labela = tf.slice(label_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
