@@ -131,6 +131,7 @@ def test(model, sess, data_generator):
         metaval_accuracies.append(result)
 
     metaval_accuracies = np.array(metaval_accuracies)
+    print('debug: metaval_accuracies.shape:', metaval_accuracies.shape)
     means = np.mean(metaval_accuracies, 0)
     stds = np.std(metaval_accuracies, 0)
     ci95 = 1.96 * stds / np.sqrt(FLAGS.num_test_task)
@@ -254,6 +255,7 @@ def main():
         train(model, saver, sess, exp_string, data_generator, resume_itr)
     else:
         test(model, sess, data_generator)
+
 
 if __name__ == "__main__":
     main()
