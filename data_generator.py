@@ -410,11 +410,14 @@ class DataGenerator(object):
         image_reader = tf.WholeFileReader()
         _, image_file = image_reader.read(filename_queue)
 
-        if FLAGS.datasource is not 'omniglot':
-            image = tf.image.decode_image(image_file, channels=3)
-        else:   # omniglot
+        if FLAGS.datasource in ['DTD_Texture', 'Fungi_full_size', 'mini_imagenet_full_size', 'quick_draw', 'VGG_Flower']:
+            image = tf.image.decode_jpeg(image_file, channels=3)
+        elif FLAGS.datasource in ['omniglot']:
             image = tf.image.decode_png(image_file)
             image = tf.image.grayscale_to_rgb(image)
+        else:   # traffic_sign
+            image = tf.image.decode_png(image_file)
+            # image = tf.image.grayscale_to_rgb(image)
 
         image = tf.image.resize_images(image, (self.img_size[0], self.img_size[1]))
         image.set_shape((self.img_size[0], self.img_size[1], 3))
