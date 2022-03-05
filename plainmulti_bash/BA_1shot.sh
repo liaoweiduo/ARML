@@ -9,7 +9,9 @@ cd ..
 export CUDA_VISIBLE_DEVICES=$GPU_ID
 
 #python main.py --datasource=BA --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01
-python main.py --datasource=mini_imagenet_full_size --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
+
+# Fungi
+python main.py --datasource=plainmulti --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=3 --train=False --test_epoch=49000
 
 
 # Aircraft results:
@@ -25,3 +27,10 @@ python main.py --datasource=mini_imagenet_full_size --datadir=/liaoweiduo/datase
 #  0.31439954, 0.3145995 , 0.3151995 , 0.3155995 , 0.3157995 ,
 #  0.3155995 , 0.31619948, 0.31639948, 0.3157995 , 0.3153995 ,
 #  0.31499952]
+
+# mini-imagenet results:
+# [0.19959894, 0.34339982, 0.34439993, 0.34599987, 0.34619987,
+#  0.3461999 , 0.3461999 , 0.34659994, 0.34679997, 0.34719998,
+#  0.34679997, 0.34719998, 0.3476    , 0.34800002, 0.34840006,
+#  0.34820005, 0.34780002, 0.3484    , 0.3484    , 0.3484    ,
+#  0.3482    ]
