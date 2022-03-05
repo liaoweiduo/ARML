@@ -256,7 +256,8 @@ class DataGenerator(object):
         image_reader = tf.WholeFileReader()
         _, image_file = image_reader.read(filename_queue)
 
-        image = tf.image.decode_jpeg(image_file, channels=3)
+        # image = tf.image.decode_jpeg(image_file, channels=3)
+        image = tf.image.decode_image(image_file, channels=3)
         image.set_shape((self.img_size[0], self.img_size[1], 3))
         image = tf.reshape(image, [self.dim_input])
         image = tf.cast(image, tf.float32) / 255.0
