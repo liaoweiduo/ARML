@@ -11,7 +11,7 @@ export CUDA_VISIBLE_DEVICES=$GPU_ID
 #python main.py --datasource=BA --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01
 
 # Bird
-python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
+#python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
 
 # Aircraft
 #python main.py --datasource=plainmulti --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=2 --train=False --test_epoch=49000
@@ -26,8 +26,14 @@ python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets
 #python main.py --datasource=plainmulti --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=3 --train=False --test_epoch=49000
 
 # Flower
-#python main.py --datasource=VGG_Flower --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
+python main.py --datasource=VGG_Flower_84 --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/BA --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
 
+# Bird results:
+# [0.1989989 , 0.6215989 , 0.6217989 , 0.6225989 , 0.6225989 ,
+#  0.62319887, 0.62239885, 0.622599  , 0.623599  , 0.623399  ,
+#  0.623399  , 0.623399  , 0.62359905, 0.62359905, 0.623399  ,
+#  0.62279916, 0.6231991 , 0.62339914, 0.62339914, 0.62359905,
+#  0.62339914]
 
 # Aircraft results:
 # [0.19879836, 0.49719983, 0.5497996 , 0.56519926, 0.5703992 ,
@@ -58,6 +64,15 @@ python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets
 #  0.34679997, 0.34719998, 0.3476    , 0.34800002, 0.34840006,
 #  0.34820005, 0.34780002, 0.3484    , 0.3484    , 0.3484    ,
 #  0.3482    ]
+
+
+# traffic sign results:
+
+
+# flower results:
+
+
+# Omniglot results:
 
 
 
