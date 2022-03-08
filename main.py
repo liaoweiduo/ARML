@@ -76,7 +76,8 @@ def train(model, saver, sess, exp_string, data_generator, resume_itr=0):
             labelb = batch_y[:, num_classes * FLAGS.update_batch_size:, :]
             feed_dict = {model.inputa: inputa, model.inputb: inputb, model.labela: labela, model.labelb: labelb}
 
-        input_tensors = [model.metatrain_op, model.total_embed_loss, model.total_loss1,
+        input_tensors = [model.metatrain_op, model.total_embed_loss,
+                         model.total_loss1,
                          model.total_losses2[FLAGS.num_updates - 1]]
         if model.classification:
             input_tensors.extend([model.total_accuracy1, model.total_accuracies2[FLAGS.num_updates - 1]])
