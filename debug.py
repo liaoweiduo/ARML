@@ -5,7 +5,7 @@ import json
 import sys
 
 
-with open('/liaoweiduo/ARML/BA/all_filenames', 'r') as f:
+with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
     all_filenames = json.load(f)
 
 tf.enable_eager_execution()

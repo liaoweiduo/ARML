@@ -408,7 +408,7 @@ class DataGenerator(object):
 
         # -----------debug------------------
         # store all_filenames to json
-        with open('/liaoweiduo/ARML/BA/all_filenames', 'w') as f:
+        with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
             json.dump(all_filenames, f)
         # -----------debug------------------
 
