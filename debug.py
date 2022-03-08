@@ -17,10 +17,9 @@ image_reader = tf.WholeFileReader()
 image_name, image_file = image_reader.read(filename_queue)
 
 # print(f'file: {image_name}')
-tf.print('file: ', image_name, output_stream=sys.stderr)
 image = tf.image.decode_jpeg(image_file, channels=3)
+tf.print('success, file: ', image_name, ' shape:', image.shape.as_list(), output_stream=sys.stderr)
 
 sess = tf.Session()
 with sess.as_default():
-    sess.run(image)
-    
+    sess.run(image_name)
