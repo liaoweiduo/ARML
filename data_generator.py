@@ -409,14 +409,17 @@ class DataGenerator(object):
         image_reader = tf.WholeFileReader()
         image_name, image_file = image_reader.read(filename_queue)
 
-        if FLAGS.datasource in ['DTD_Texture', 'Fungi_full_size', 'mini_imagenet_full_size', 'quick_draw', 'VGG_Flower']:
+        if FLAGS.datasource in ['DTD_Texture', 'Fungi_full_size', 'mini_imagenet_full_size', 'quick_draw']:
             image = tf.image.decode_jpeg(image_file, channels=3)
-        elif FLAGS.datasource in ['omniglot']:
-            image = tf.image.decode_png(image_file)
-            image = tf.image.grayscale_to_rgb(image)
+        # elif FLAGS.datasource in ['omniglot']:
+        #     image = tf.image.decode_png(image_file)
+        #     image = tf.image.grayscale_to_rgb(image)
         else:   # traffic_sign is ppm
             # print(f'file: {image_name}')
-            image = tf.image.decode_jpeg(image_file, channels=3)
+            try:
+                image = tf.image.decode_jpeg(image_file, channels=3)
+            except:
+                raise Exception(f'not jpeg, file: {image_name}')
             # else:
             #     raise Exception(f'not jpeg, file: {image_name}')
 
