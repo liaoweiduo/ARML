@@ -49,7 +49,7 @@ with sess.as_default():
             capacity=min_queue_examples + 3 * batch_image_size,
         )
 
-        print_op = tf.print('tensor:', tensor, 'name:', image_names, {'shape': images.shape.as_list()},
+        print_op = tf.print('tensor:', tensor, 'name:', image_names.shape.as_list(), {'shape': images.shape.as_list()},
                             output_stream=sys.stdout)  # 'file': image_name,
 
         # print_op_1 = tf.print("tensors:", tensor, {2: tensor * 2},
