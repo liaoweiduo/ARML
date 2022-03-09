@@ -30,8 +30,8 @@ with sess.as_default():
     image = tf.reshape(image, [84 * 84 * 3])
     image = tf.cast(image, tf.float32) / 255.0
 
-    print_op = tf.print('tensor:', tensor, {'file': image_name, 'shape': image.shape.as_list()},
-                        output_stream=sys.stdout)
+    print_op = tf.print('tensor:', tensor, {'shape': image.shape.as_list()},
+                        output_stream=sys.stdout)   # 'file': image_name,
 
     print_op_1 = tf.print("tensors:", tensor, {2: tensor * 2},
                         output_stream=sys.stdout)
