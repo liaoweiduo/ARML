@@ -9,7 +9,7 @@ tf.compat.v1.disable_v2_behavior()
 with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
     all_filenames = json.load(f)
 
-print('load all_filenames. with len:', len(all_filenames))
+print('\n\nload all_filenames. with len:', len(all_filenames))
 
 # tf.enable_eager_execution()
 sess = tf.compat.v1.Session()
@@ -18,12 +18,18 @@ with sess.as_default():
 
     # make queue for tensorflow to read from
     filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames[:10]), shuffle=False)
-    print('Generating image processing ops')
+    print('\n\nGenerating image processing ops')
     image_reader = tf.WholeFileReader()
     image_name, image_file = image_reader.read(filename_queue)
 
     # print(f'file: {image_name}')
     image = tf.image.decode_jpeg(image_file, channels=3)
+
+    image = tf.image.resize_images(image, (84, 84))
+    image.set_shape((84, 84, 3))
+    image = tf.reshape(image, [84 * 84 * 3])
+    image = tf.cast(image, tf.float32) / 255.0
+
     print_op = tf.print('tensor:', tensor, {'file': image_name, 'shape': image.shape.as_list()},
                         output_stream=sys.stdout)
 
