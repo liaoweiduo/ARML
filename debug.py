@@ -37,7 +37,7 @@ with sess.as_default():
                         output_stream=sys.stdout)
     with tf.control_dependencies([print_op, print_op_1]):
         tripled_tensor = tensor * 3
-        modified_image = (tripled_tensor[1]/1.0) * image
+        modified_image = tf.cast(tripled_tensor[1], tf.float32) * image
 
     sess.run(modified_image)
 
