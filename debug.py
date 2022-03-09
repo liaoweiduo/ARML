@@ -47,7 +47,8 @@ with sess.as_default():
         count += 1
         print('count:', count)
         print('image:', image.shape)
-        print('image_name:', image_name)
+        image_name_ = sess.run(image_name)
+        print('image_name:', image_name_)
     #
     # for b_idx in range(4):
     #     images = tf.train.batch(
