@@ -16,7 +16,7 @@ print('\n\nload all_filenames. with len:', len(all_filenames))
 tensor = tf.range(2)
 
 # make queue for tensorflow to read from
-filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames), shuffle=False)
+filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames[:10]), shuffle=False)
 print('\n\nGenerating image processing ops')
 image_reader = tf.WholeFileReader()
 image_name, image_file = image_reader.read(filename_queue)
@@ -43,12 +43,14 @@ with sess.as_default():
     threads = tf.train.start_queue_runners(sess=sess)
 
     count = 0
-    for _ in range(len(all_filenames)):
+    for _ in range(10):
         count += 1
         print('count:', count)
         print('image:', image.shape)
         image_name_ = sess.run(image_name)
         print('image_name:', image_name_)
+        image_name_ = sess.run(image_name)
+        print('image_name2:', image_name_)
     #
     # for b_idx in range(4):
     #     images = tf.train.batch(
@@ -83,3 +85,18 @@ with sess.as_default():
 # sess = tf.Session()
 # with sess.as_default():
 #     sess.run(print_op)
+
+
+# count: 9997
+# image: (21168,)
+# image_name: b'/liaoweiduo/datasets/VGG_Flower_84/test/91/image_04862.jpg'
+# count: 9998
+# image: (21168,)
+# image_name: b'/liaoweiduo/datasets/VGG_Flower_84/test/91/image_04868.jpg'
+# count: 9999
+# image: (21168,)
+# image_name: b'/liaoweiduo/datasets/VGG_Flower_84/test/71/image_04535.jpg'
+# count: 10000
+# image: (21168,)
+# image_name: b'/liaoweiduo/datasets/VGG_Flower_84/test/71/image_04497.jpg'
+# 图片全部都通过decode_jpeg识别成功了，那为什么实际跑的时候还会报错
