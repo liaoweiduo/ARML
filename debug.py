@@ -17,7 +17,7 @@ with sess.as_default():
     tensor = tf.range(2)
 
     # make queue for tensorflow to read from
-    filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames[:10]), shuffle=False)
+    filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames[:40]), shuffle=False)
     print('\n\nGenerating image processing ops')
     image_reader = tf.WholeFileReader()
     image_name, image_file = image_reader.read(filename_queue)
