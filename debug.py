@@ -16,7 +16,7 @@ print('\n\nload all_filenames. with len:', len(all_filenames))
 tensor = tf.range(2)
 
 # make queue for tensorflow to read from
-filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames[:120]), shuffle=False)
+filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames), shuffle=False)
 print('\n\nGenerating image processing ops')
 image_reader = tf.WholeFileReader()
 image_name, image_file = image_reader.read(filename_queue)
@@ -43,7 +43,7 @@ with sess.as_default():
     threads = tf.train.start_queue_runners(sess=sess)
 
     count = 0
-    for _ in range(120):
+    for _ in range(len(all_filenames)):
         count += 1
         print('count:', count)
         print('image:', image.shape)
