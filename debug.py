@@ -35,7 +35,7 @@ with sess.as_default():
     examples_per_batch = 5 * 2
     batch_image_size = 4 * examples_per_batch
     print('\n\nBatching images')
-    for b_idx in range(3):
+    for b_idx in range(4):
         images = tf.train.batch(
             [image],
             batch_size=batch_image_size,
