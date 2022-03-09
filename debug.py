@@ -35,23 +35,25 @@ with sess.as_default():
     examples_per_batch = 5 * 2
     batch_image_size = 4 * examples_per_batch
     print('\n\nBatching images')
-    images = tf.train.batch(
-        [image],
-        batch_size=batch_image_size,
-        num_threads=num_preprocess_threads,
-        capacity=min_queue_examples + 3 * batch_image_size,
-    )
+    for b_idx in range(3):
+        images = tf.train.batch(
+            [image],
+            batch_size=batch_image_size,
+            num_threads=num_preprocess_threads,
+            capacity=min_queue_examples + 3 * batch_image_size,
+        )
 
-    print_op = tf.print('tensor:', tensor, {'shape': images.shape.as_list()},
-                        output_stream=sys.stdout)   # 'file': image_name,
+        print_op = tf.print('tensor:', tensor, {'shape': images.shape.as_list()},
+                            output_stream=sys.stdout)  # 'file': image_name,
 
-    print_op_1 = tf.print("tensors:", tensor, {2: tensor * 2},
-                        output_stream=sys.stdout)
-    with tf.control_dependencies([print_op, print_op_1]):
-        tripled_tensor = tensor * 3
-        # modified_image = tf.cast(tripled_tensor[1], tf.float32) * image
+        print_op_1 = tf.print("tensors:", tensor, {2: tensor * 2},
+                              output_stream=sys.stdout)
 
-    sess.run(tripled_tensor)
+        with tf.control_dependencies([print_op_1]):
+            tensor = tensor * 2
+            modified_image = tf.cast(tensor[1], tf.float32) * images
+
+        sess.run(print_op)
 
 # tf.print(tensor, output_stream=sys.stderr)
 #
