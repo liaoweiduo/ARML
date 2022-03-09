@@ -45,8 +45,9 @@ with sess.as_default():
     count = 0
     for _ in range(120):
         count += 1
+        print('count:', count)
         print('image:', image.shape)
-        print('image_name:', image_name.shape)
+        print('image_name:', image_name)
     #
     # for b_idx in range(4):
     #     images = tf.train.batch(
