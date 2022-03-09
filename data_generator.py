@@ -406,11 +406,11 @@ class DataGenerator(object):
             filenames = [li[1] for li in labels_and_images]
             all_filenames.extend(filenames)
 
-        # -----------debug------------------
-        # store all_filenames to json
-        with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
-            json.dump(all_filenames, f)
-        # -----------debug------------------
+        # # -----------debug------------------
+        # # store all_filenames to json
+        # with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
+        #     json.dump(all_filenames, f)
+        # # -----------debug------------------
 
         # make queue for tensorflow to read from
         filename_queue = tf.train.string_input_producer(tf.convert_to_tensor(all_filenames), shuffle=False)
