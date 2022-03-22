@@ -425,7 +425,7 @@ class DataGenerator(object):
         #     image = tf.image.grayscale_to_rgb(image)
         else:   # traffic_sign is ppm
             # print(f'file: {image_name}')
-            tf.print('file: ', image_name, output_stream=sys.stderr)
+            # tf.print('file: ', image_name, output_stream=sys.stderr)
             image = tf.image.decode_jpeg(image_file, channels=3)
             # else:
             #     raise Exception(f'not jpeg, file: {image_name}')
