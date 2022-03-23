@@ -391,6 +391,7 @@ class DataGenerator(object):
             folders = self.metaval_character_folders
             num_total_batches = FLAGS.num_test_task
         # make list of files
+
         print('Generating filenames')
         # all_filenames = []
         # for image_itr in range(num_total_batches):
@@ -412,7 +413,7 @@ class DataGenerator(object):
         #     json.dump(all_filenames, f)
         with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
             all_filenames = json.load(f)
-        # all_filenames = all_filenames[: 1200]
+        all_filenames = all_filenames[: 1500]
         # all_filenames = ['/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03273.jpg',
         #                  '/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03192.jpg']
         # # -----------debug------------------
@@ -447,7 +448,7 @@ class DataGenerator(object):
             result = sess.run([image_name, image[0]])
             # 上述在test_itr == 111时报错，则还是图片没有incode好
             print('result:', result)
-            print('test_itr:', test_itr)
+            print('test_itr:', test_itr)        # 1407读不出来
         # fail on 1110？
         ## end debugging
 
