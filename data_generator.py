@@ -412,7 +412,7 @@ class DataGenerator(object):
         #     json.dump(all_filenames, f)
         with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
             all_filenames = json.load(f)
-        all_filenames = all_filenames[: 1200]
+        # all_filenames = all_filenames[: 1200]
         # all_filenames = ['/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03273.jpg',
         #                  '/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03192.jpg']
         # # -----------debug------------------
