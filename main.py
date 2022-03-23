@@ -110,7 +110,6 @@ def test(model, sess, data_generator):
     metaval_accuracies = []
     print(FLAGS.num_test_task)
 
-    test_count = 0
     for test_itr in range(FLAGS.num_test_task):
         if FLAGS.datasource == '2D':
             batch_x, batch_y, para_func, sel_set = data_generator.generate_2D_batch()
@@ -126,13 +125,15 @@ def test(model, sess, data_generator):
             feed_dict = {model.meta_lr: 0.0}
 
         if model.classification:
+
+            # result = sess.run()   [inputa,inputb shape]
+
             result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
-            print('result.shape:', len(result))
-            test_count = test_count + 1     # bs=1
-            print('test_count:', test_count)
+            print('result:', result)
             print('test_itr:', test_itr)
         else:
             result = sess.run([model.metaval_total_loss1] + model.metaval_total_losses2, feed_dict)
+
 
         metaval_accuracies.append(result)
 
