@@ -393,29 +393,27 @@ class DataGenerator(object):
         # make list of files
 
         print('Generating filenames')
-        # all_filenames = []
-        # for image_itr in range(num_total_batches):
-        #     sel = 0
-        #     if FLAGS.train == False and FLAGS.test_dataset != -1:
-        #         sel = FLAGS.test_dataset
-        #     sampled_character_folders = random.sample(folders[sel], self.num_classes)
-        #     random.shuffle(sampled_character_folders)
-        #     labels_and_images = get_images(sampled_character_folders, range(self.num_classes),
-        #                                    nb_samples=self.num_samples_per_class, shuffle=False)
-        #     # make sure the above isn't randomized order
-        #     labels = [li[0] for li in labels_and_images]
-        #     filenames = [li[1] for li in labels_and_images]
-        #     all_filenames.extend(filenames)
+        all_filenames = []
+        for image_itr in range(num_total_batches):
+            sel = 0
+            if FLAGS.train == False and FLAGS.test_dataset != -1:
+                sel = FLAGS.test_dataset
+            sampled_character_folders = random.sample(folders[sel], self.num_classes)
+            random.shuffle(sampled_character_folders)
+            labels_and_images = get_images(sampled_character_folders, range(self.num_classes),
+                                           nb_samples=self.num_samples_per_class, shuffle=False)
+            # make sure the above isn't randomized order
+            labels = [li[0] for li in labels_and_images]
+            filenames = [li[1] for li in labels_and_images]
+            all_filenames.extend(filenames)
 
         # # -----------debug------------------
-        # # store all_filenames to json
-        # with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
-        #     json.dump(all_filenames, f)
-        with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
-            all_filenames = json.load(f)
-        all_filenames = all_filenames[1400: 1500]
-        # all_filenames = ['/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03273.jpg',
-        #                  '/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03192.jpg']
+        # store all_filenames to json
+        with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
+            json.dump(all_filenames, f)
+        # with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
+        #     all_filenames = json.load(f)
+        # all_filenames = all_filenames[1400: 1500]
         # # -----------debug------------------
 
         # make queue for tensorflow to read from
