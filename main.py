@@ -127,7 +127,7 @@ def test(model, sess, data_generator):
 
         if model.classification:
             result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
-            print('result.shape:', result.shape)
+            print('result.shape:', len(result))
             test_count = test_count + 1     # bs=1
             print('test_count:', test_count)
             print('test_itr:', test_itr)
