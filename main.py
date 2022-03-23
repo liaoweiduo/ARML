@@ -114,7 +114,7 @@ def test(model, sess, data_generator):
         if FLAGS.datasource == '2D':
             batch_x, batch_y, para_func, sel_set = data_generator.generate_2D_batch()
 
-            inputa = batch_x[:, :num_classes * FLAGS.update_batch_size, :]
+            inputa = batch_x[:, :num_classes * FLAGS.update_batch_size, :]      # [1, 5, input_dim]
             inputb = batch_x[:, num_classes * FLAGS.update_batch_size:, :]
             labela = batch_y[:, :num_classes * FLAGS.update_batch_size, :]
             labelb = batch_y[:, num_classes * FLAGS.update_batch_size:, :]
@@ -126,9 +126,10 @@ def test(model, sess, data_generator):
 
         if model.classification:
 
-            # result = sess.run()   [inputa,inputb shape]
+            result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
+                               tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
 
-            result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
+            # result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
             print('result:', result)
             print('test_itr:', test_itr)
         else:
