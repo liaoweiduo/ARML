@@ -438,12 +438,12 @@ class DataGenerator(object):
         ## debugging
         tf.train.start_queue_runners()
 
-        for test_itr in range(FLAGS.num_test_task):
+        for test_itr in range(FLAGS.num_test_task*10):      # 10 imgs for 1 task
             result = sess.run([image_name, image[0]])
             # 上述在test_itr == 111时报错，则还是图片没有incode好
             print('result:', result)
             print('test_itr:', test_itr)
-        # fail on 111
+        # fail on 1110？
         ## end debugging
 
         # omniglot is png
