@@ -128,6 +128,7 @@ def test(model, sess, data_generator):
 
             result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
                                tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
+            # 上述在test_itr == 111时报错，则还是图片没有incode好
 
             # result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
             print('result:', result)
@@ -253,17 +254,28 @@ def main():
 
     tf.train.start_queue_runners()
 
-    if FLAGS.resume or not FLAGS.train:
-        model_file = '{0}/{2}/model{1}'.format(FLAGS.logdir, FLAGS.test_epoch, exp_string)
-        if model_file:
-            print("Restoring model weights from " + model_file)
-            saver.restore(sess, model_file)
-    resume_itr = 0
+    ## debugging
 
-    if FLAGS.train:
-        train(model, saver, sess, exp_string, data_generator, resume_itr)
-    else:
-        test(model, sess, data_generator)
+    for test_itr in range(FLAGS.num_test_task):
+        result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
+                           tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
+        # 上述在test_itr == 111时报错，则还是图片没有incode好
+        print('result:', result)
+        print('test_itr:', test_itr)
+
+    ## end debugging
+
+    # if FLAGS.resume or not FLAGS.train:
+    #     model_file = '{0}/{2}/model{1}'.format(FLAGS.logdir, FLAGS.test_epoch, exp_string)
+    #     if model_file:
+    #         print("Restoring model weights from " + model_file)
+    #         saver.restore(sess, model_file)
+    # resume_itr = 0
+    #
+    # if FLAGS.train:
+    #     train(model, saver, sess, exp_string, data_generator, resume_itr)
+    # else:
+    #     test(model, sess, data_generator)
 
 
 if __name__ == "__main__":
