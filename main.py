@@ -126,13 +126,15 @@ def test(model, sess, data_generator):
 
         if model.classification:
 
+            ## debugging
             # result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
             #                    tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
             # 上述在test_itr == 111时报错，则还是图片没有incode好
+            ## debugging
 
             result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
-            print('result:', result)
-            print('test_itr:', test_itr)
+            # print('result:', result)
+            # print('test_itr:', test_itr)
         else:
             result = sess.run([model.metaval_total_loss1] + model.metaval_total_losses2, feed_dict)
 

@@ -409,8 +409,8 @@ class DataGenerator(object):
 
         # # -----------debug------------------
         # store all_filenames to json
-        with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
-            json.dump(all_filenames, f)
+        # with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
+        #     json.dump(all_filenames, f)
         # with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
         #     all_filenames = json.load(f)
         # all_filenames = all_filenames[1400: 1500]
@@ -439,16 +439,16 @@ class DataGenerator(object):
         image = tf.reshape(image, [self.dim_input])
         image = tf.cast(image, tf.float32) / 255.0
 
-        ## debugging
-        tf.train.start_queue_runners()
-
-        for test_itr in range(len(all_filenames)):      # 10 imgs for 1 task
-            result = sess.run([image_name, image[0]])
-            # 上述在test_itr == 111时报错，则还是图片没有incode好
-            print('result:', result)
-            print('test_itr:', test_itr)        # 1407读不出来
-        # fail on 1110？
-        ## end debugging
+        # ## debugging
+        # tf.train.start_queue_runners()
+        #
+        # for test_itr in range(len(all_filenames)):      # 10 imgs for 1 task
+        #     result = sess.run([image_name, image[0]])
+        #     # 上述在test_itr == 111时报错，则还是图片没有incode好
+        #     print('result:', result)
+        #     print('test_itr:', test_itr)        # 1407读不出来
+        # # fail on 1110？
+        # ## end debugging
 
         # omniglot is png
         # for omniglot channel 3, tf.image.grayscale_to_rgb(image)
@@ -502,8 +502,8 @@ class DataGenerator(object):
         # # fail on 111
         # ## end debugging
 
-
-        return all_image_batches, all_label_batches         # 1 batch of tasks, for test, bs=1, only contain 10 imgs
+        # 1 batch of tasks, for test, bs=1, only contain 10 imgs
+        return all_image_batches, all_label_batches
 
     def generate_2D_batch(self, train=False):
         dim_input = self.dim_input
