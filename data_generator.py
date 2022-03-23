@@ -383,7 +383,7 @@ class DataGenerator(object):
         all_label_batches = tf.one_hot(all_label_batches, self.num_classes)
         return all_image_batches, all_label_batches
 
-    def make_data_tensor_single(self, train=True):
+    def make_data_tensor_single(self, sess=None, train=True):
         if train:
             folders = self.metatrain_character_folders
             num_total_batches = 200000
@@ -475,6 +475,18 @@ class DataGenerator(object):
         all_image_batches = tf.stack(all_image_batches)
         all_label_batches = tf.stack(all_label_batches)
         all_label_batches = tf.one_hot(all_label_batches, self.num_classes)
+
+        ## debugging
+        tf.train.start_queue_runners()
+
+        for test_itr in range(FLAGS.num_test_task):
+            result = sess.run([all_image_batches[0, 0, 0], all_label_batches[0, 0, 0]])
+            # 上述在test_itr == 111时报错，则还是图片没有incode好
+            print('result:', result)
+            print('test_itr:', test_itr)
+        ## end debugging
+
+
         return all_image_batches, all_label_batches         # 1 batch of tasks, for test, bs=1, only contain 10 imgs
 
     def generate_2D_batch(self, train=False):

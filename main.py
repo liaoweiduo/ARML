@@ -211,7 +211,7 @@ def main():
         num_classes = data_generator.num_classes
         if FLAGS.train:
             random.seed(5)
-            image_tensor, label_tensor = data_generator.make_data_tensor_single()
+            image_tensor, label_tensor = data_generator.make_data_tensor_single(sess)
 
             inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])     # sup [1(bs), 5, img_dim]
             inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])    # que [1(bs), 5, img_dim]
@@ -254,28 +254,17 @@ def main():
 
     tf.train.start_queue_runners()
 
-    ## debugging
+    if FLAGS.resume or not FLAGS.train:
+        model_file = '{0}/{2}/model{1}'.format(FLAGS.logdir, FLAGS.test_epoch, exp_string)
+        if model_file:
+            print("Restoring model weights from " + model_file)
+            saver.restore(sess, model_file)
+    resume_itr = 0
 
-    for test_itr in range(FLAGS.num_test_task):
-        result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
-                           tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
-        # 上述在test_itr == 111时报错，则还是图片没有incode好
-        print('result:', result)
-        print('test_itr:', test_itr)
-
-    ## end debugging
-
-    # if FLAGS.resume or not FLAGS.train:
-    #     model_file = '{0}/{2}/model{1}'.format(FLAGS.logdir, FLAGS.test_epoch, exp_string)
-    #     if model_file:
-    #         print("Restoring model weights from " + model_file)
-    #         saver.restore(sess, model_file)
-    # resume_itr = 0
-    #
-    # if FLAGS.train:
-    #     train(model, saver, sess, exp_string, data_generator, resume_itr)
-    # else:
-    #     test(model, sess, data_generator)
+    if FLAGS.train:
+        train(model, saver, sess, exp_string, data_generator, resume_itr)
+    else:
+        test(model, sess, data_generator)
 
 
 if __name__ == "__main__":
