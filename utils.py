@@ -18,7 +18,7 @@ def get_images(paths, labels, nb_samples=None, shuffle=True):
         sampler = lambda x: x
     images = [(i, os.path.join(path, image)) \
         for i, path in zip(labels, paths) \
-        for image in sampler([img_path for img_path in os.listdir(path) if image.endswith('.jpg')])
+        for image in sampler([img_path for img_path in os.listdir(path) if img_path.endswith('.jpg')])
     ]            # ignore not image
     if shuffle:
         random.shuffle(images)
