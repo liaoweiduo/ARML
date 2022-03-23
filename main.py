@@ -126,11 +126,11 @@ def test(model, sess, data_generator):
 
         if model.classification:
 
-            result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
-                               tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
+            # result = sess.run([tf.reduce_sum(model.inputa), tf.reduce_sum(model.inputb),
+            #                    tf.reduce_sum(model.labela), tf.reduce_sum(model.labelb)])
             # 上述在test_itr == 111时报错，则还是图片没有incode好
 
-            # result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
+            result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
             print('result:', result)
             print('test_itr:', test_itr)
         else:
@@ -211,7 +211,7 @@ def main():
         num_classes = data_generator.num_classes
         if FLAGS.train:
             random.seed(5)
-            image_tensor, label_tensor = data_generator.make_data_tensor_single(sess)
+            image_tensor, label_tensor = data_generator.make_data_tensor_single()
 
             inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])     # sup [1(bs), 5, img_dim]
             inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])    # que [1(bs), 5, img_dim]
@@ -220,7 +220,7 @@ def main():
             input_tensors = {'inputa': inputa, 'inputb': inputb, 'labela': labela, 'labelb': labelb}
         else:
             random.seed(6)
-            image_tensor, label_tensor = data_generator.make_data_tensor_single(train=False)
+            image_tensor, label_tensor = data_generator.make_data_tensor_single(sess=sess, train=False)
 
             inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
             inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
