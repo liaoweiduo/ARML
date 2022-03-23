@@ -435,6 +435,17 @@ class DataGenerator(object):
         image = tf.reshape(image, [self.dim_input])
         image = tf.cast(image, tf.float32) / 255.0
 
+        ## debugging
+        tf.train.start_queue_runners()
+
+        for test_itr in range(FLAGS.num_test_task):
+            result = sess.run([image_name, image[0, 0, 0]])
+            # 上述在test_itr == 111时报错，则还是图片没有incode好
+            print('result:', result)
+            print('test_itr:', test_itr)
+        # fail on 111
+        ## end debugging
+
         # omniglot is png
         # for omniglot channel 3, tf.image.grayscale_to_rgb(image)
         #
@@ -476,15 +487,16 @@ class DataGenerator(object):
         all_label_batches = tf.stack(all_label_batches)
         all_label_batches = tf.one_hot(all_label_batches, self.num_classes)
 
-        ## debugging
-        tf.train.start_queue_runners()
-
-        for test_itr in range(FLAGS.num_test_task):
-            result = sess.run([all_image_batches[0, 0, 0], all_label_batches[0, 0, 0]])
-            # 上述在test_itr == 111时报错，则还是图片没有incode好
-            print('result:', result)
-            print('test_itr:', test_itr)
-        ## end debugging
+        # ## debugging
+        # tf.train.start_queue_runners()
+        #
+        # for test_itr in range(FLAGS.num_test_task):
+        #     result = sess.run([all_image_batches[0, 0, 0], all_label_batches[0, 0, 0]])
+        #     # 上述在test_itr == 111时报错，则还是图片没有incode好
+        #     print('result:', result)
+        #     print('test_itr:', test_itr)
+        # # fail on 111
+        # ## end debugging
 
 
         return all_image_batches, all_label_batches         # 1 batch of tasks, for test, bs=1, only contain 10 imgs
