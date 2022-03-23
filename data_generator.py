@@ -410,8 +410,11 @@ class DataGenerator(object):
         # # store all_filenames to json
         # with open('/liaoweiduo/ARML/BA/all_filenames.json', 'w') as f:
         #     json.dump(all_filenames, f)
-        all_filenames = ['/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03273.jpg',
-                         '/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03192.jpg']
+        with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
+            all_filenames = json.load(f)
+        all_filenames = all_filenames[1100: 1200]
+        # all_filenames = ['/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03273.jpg',
+        #                  '/liaoweiduo/datasets/VGG_Flower_84/test/65/image_03192.jpg']
         # # -----------debug------------------
 
         # make queue for tensorflow to read from
@@ -440,7 +443,7 @@ class DataGenerator(object):
         ## debugging
         tf.train.start_queue_runners()
 
-        for test_itr in range(FLAGS.num_test_task*10):      # 10 imgs for 1 task
+        for test_itr in range(len(all_filenames)):      # 10 imgs for 1 task
             result = sess.run([image_name, image[0]])
             # 上述在test_itr == 111时报错，则还是图片没有incode好
             print('result:', result)
