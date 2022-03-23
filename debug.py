@@ -6,8 +6,10 @@ import sys
 
 tf.compat.v1.disable_v2_behavior()
 
-with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
+with open('//10.20.2.245/datasets/ARML/BA/all_filenames.json', 'r') as f:
     all_filenames = json.load(f)
+# with open('/liaoweiduo/ARML/BA/all_filenames.json', 'r') as f:
+#     all_filenames = json.load(f)
 
 print('\n\nload all_filenames. with len:', len(all_filenames))
 

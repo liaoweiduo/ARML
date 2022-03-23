@@ -110,6 +110,7 @@ def test(model, sess, data_generator):
     metaval_accuracies = []
     print(FLAGS.num_test_task)
 
+    test_count = 0
     for test_itr in range(FLAGS.num_test_task):
         if FLAGS.datasource == '2D':
             batch_x, batch_y, para_func, sel_set = data_generator.generate_2D_batch()
@@ -126,6 +127,10 @@ def test(model, sess, data_generator):
 
         if model.classification:
             result = sess.run([model.metaval_total_accuracy1] + model.metaval_total_accuracies2, feed_dict)
+            print('result.shape:', result.shape)
+            test_count = test_count + 1     # bs=1
+            print('test_count:', test_count)
+            print('test_itr:', test_itr)
         else:
             result = sess.run([model.metaval_total_loss1] + model.metaval_total_losses2, feed_dict)
 
@@ -205,8 +210,8 @@ def main():
             random.seed(5)
             image_tensor, label_tensor = data_generator.make_data_tensor_single()
 
-            inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
-            inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
+            inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])     # sup [1(bs), 5, img_dim]
+            inputb = tf.slice(image_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])    # que [1(bs), 5, img_dim]
             labela = tf.slice(label_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
             labelb = tf.slice(label_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
             input_tensors = {'inputa': inputa, 'inputb': inputb, 'labela': labela, 'labelb': labelb}
@@ -243,6 +248,7 @@ def main():
         exp_string += 'nonorm'
 
     tf.global_variables_initializer().run()
+
     tf.train.start_queue_runners()
 
     if FLAGS.resume or not FLAGS.train:

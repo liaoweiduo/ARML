@@ -17,7 +17,7 @@ FLAGS = flags.FLAGS
 
 
 class DataGenerator(object):
-    def __init__(self, num_samples_per_class, batch_size, config={}):
+    def __init__(self, num_samples_per_class, batch_size, config={}):           # val (2, 1, {})
         self.batch_size = batch_size
         self.num_samples_per_class = num_samples_per_class
         self.num_classes = 1  # by default 1 (only relevant for classification problems)
@@ -56,7 +56,7 @@ class DataGenerator(object):
                             os.path.join('{0}/plainmulti/{1}/val'.format(FLAGS.datadir, eachdataset), label)) \
                          ])
             self.metatrain_character_folders = metatrain_folders
-            self.metaval_character_folders = metaval_folders
+            self.metaval_character_folders = metaval_folders            # contain list of label(class)
             self.rotations = config.get('rotations', [0])
 
         elif FLAGS.datasource == 'BA':
@@ -164,19 +164,19 @@ class DataGenerator(object):
             folders = self.metatrain_character_folders
             num_total_batches = 200000
         else:
-            folders = self.metaval_character_folders
+            folders = self.metaval_character_folders            # [list of labels for each dataset]
             num_total_batches = FLAGS.num_test_task
         # make list of files
         print('Generating filenames')
-        all_filenames = []
-        for image_itr in range(num_total_batches):
+        all_filenames = []                      # all img files in test
+        for image_itr in range(num_total_batches):      # for 每个task
             sel = np.random.randint(4)
             if FLAGS.train == False and FLAGS.test_dataset != -1:
                 sel = FLAGS.test_dataset
-            sampled_character_folders = random.sample(folders[sel], self.num_classes)
+            sampled_character_folders = random.sample(folders[sel], self.num_classes)       # select 5 as 5-way
             random.shuffle(sampled_character_folders)
             labels_and_images = get_images(sampled_character_folders, range(self.num_classes),
-                                           nb_samples=self.num_samples_per_class, shuffle=False)
+                                           nb_samples=self.num_samples_per_class, shuffle=False)    # 每个selected class 从中 sample 2个imgs，一个sup，一个query
             # make sure the above isn't randomized order
             labels = [li[0] for li in labels_and_images]
             filenames = [li[1] for li in labels_and_images]
@@ -279,8 +279,8 @@ class DataGenerator(object):
 
         num_preprocess_threads = 1
         min_queue_examples = 256
-        examples_per_batch = self.num_classes * self.num_samples_per_class
-        batch_image_size = self.batch_size * examples_per_batch
+        examples_per_batch = self.num_classes * self.num_samples_per_class      # 5*2 = 10
+        batch_image_size = self.batch_size * examples_per_batch             # test 1*10
         print('Batching images')
         images = tf.train.batch(
             [image],
@@ -291,7 +291,7 @@ class DataGenerator(object):
         all_image_batches, all_label_batches = [], []
         print('Manipulating image data to be right shape')
         for i in range(self.batch_size):
-            image_batch = images[i * examples_per_batch:(i + 1) * examples_per_batch]
+            image_batch = images[i * examples_per_batch:(i + 1) * examples_per_batch]       # contain 10 imgs as a task
             label_batch = tf.convert_to_tensor(labels)
             new_list, new_label_list = [], []
             for k in range(self.num_samples_per_class):
@@ -435,11 +435,8 @@ class DataGenerator(object):
         image = tf.reshape(image, [self.dim_input])
         image = tf.cast(image, tf.float32) / 255.0
 
-        # omniglot is png, traffic_sign is ppm,
+        # omniglot is png
         # for omniglot channel 3, tf.image.grayscale_to_rgb(image)
-        # for ppm:
-        # image_raw = tf.io.read_file(image_path)
-        # image = tf.image.decode_image(image_raw)
         #
         # image = tf.image.decode_png(image_file)
         # image.set_shape((self.img_size[0], self.img_size[1], 1))
@@ -449,8 +446,8 @@ class DataGenerator(object):
 
         num_preprocess_threads = 1
         min_queue_examples = 256
-        examples_per_batch = self.num_classes * self.num_samples_per_class
-        batch_image_size = self.batch_size * examples_per_batch
+        examples_per_batch = self.num_classes * self.num_samples_per_class          # 10
+        batch_image_size = self.batch_size * examples_per_batch                     # 10
         print('Batching images')
         images = tf.train.batch(
             [image],
@@ -458,11 +455,12 @@ class DataGenerator(object):
             num_threads=num_preprocess_threads,
             capacity=min_queue_examples + 3 * batch_image_size,
         )
-        all_image_batches, all_label_batches = [], []
+        all_image_batches, all_label_batches, all_image_name_batches = [], [], []
         print('Manipulating image data to be right shape')
         for i in range(self.batch_size):
-            image_batch = images[i * examples_per_batch:(i + 1) * examples_per_batch]
+            image_batch = images[i * examples_per_batch: (i + 1) * examples_per_batch]      # image for 1 task
             label_batch = tf.convert_to_tensor(labels)
+            # image_name_batch = tf.convert_to_tensor(image_name)
             new_list, new_label_list = [], []
             for k in range(self.num_samples_per_class):
                 class_idxs = tf.range(0, self.num_classes)
@@ -477,7 +475,7 @@ class DataGenerator(object):
         all_image_batches = tf.stack(all_image_batches)
         all_label_batches = tf.stack(all_label_batches)
         all_label_batches = tf.one_hot(all_label_batches, self.num_classes)
-        return all_image_batches, all_label_batches
+        return all_image_batches, all_label_batches         # 1 batch of tasks, for test, bs=1, only contain 10 imgs
 
     def generate_2D_batch(self, train=False):
         dim_input = self.dim_input
