@@ -12,7 +12,7 @@ export CUDA_VISIBLE_DEVICES=$GPU_ID
 
 # Bird
 python test.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/logs --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
-
+#  --test_seed=0
 # result:
 # [0.5775992, 0.5983991, 0.5829997, 0.5767996]
 

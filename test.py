@@ -124,6 +124,8 @@ def main():
     dim_output = data_generator.dim_output
     dim_input = data_generator.dim_input
 
+    model = MAML(sess, dim_input, dim_output, test_num_updates=test_num_updates)
+
     test_accs = []
     for seed in [0,1,2,3,4,5,6,7,8,9,10]:
         print(f'seed: {seed}')
@@ -181,8 +183,6 @@ def main():
                 labela = tf.slice(label_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
                 labelb = tf.slice(label_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
                 metaval_input_tensors = {'inputa': inputa, 'inputb': inputb, 'labela': labela, 'labelb': labelb}
-
-        model = MAML(sess, dim_input, dim_output, test_num_updates=test_num_updates)
 
         if FLAGS.train:
             model.construct_model(input_tensors=input_tensors, prefix='metatrain_')

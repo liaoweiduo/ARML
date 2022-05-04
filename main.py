@@ -272,6 +272,7 @@ def main():
         print('test_acc:', test_acc)
 
 
+
 if __name__ == "__main__":
     # tf.enable_eager_execution()
     main()
