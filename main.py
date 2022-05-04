@@ -271,6 +271,8 @@ def main():
         test_acc = test(model, sess, data_generator)
         print('test_acc:', test_acc)
 
+        with open(f"{FLAGS.logdir}/{exp_string}/test.txt", 'a') as f:
+            f.write(f'{FLAGS.test_seed}, {test_acc}\n')
 
 
 if __name__ == "__main__":
