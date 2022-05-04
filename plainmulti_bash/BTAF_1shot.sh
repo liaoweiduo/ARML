@@ -11,7 +11,10 @@ export CUDA_VISIBLE_DEVICES=$GPU_ID
 #python main.py --datasource=plainmulti --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/logs --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01
 
 # Bird
-python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets --test_seed=0 --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/logs --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
+python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets --test_seed=1 --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/logs --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
+
+# result:
+# [0.5775992, ]
 
 # Aircraft
 #python main.py --datasource=plainmulti --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/logs --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=2 --train=False --test_epoch=49000
@@ -34,29 +37,7 @@ python main.py --datasource=meta-dataset/CUB_Bird --datadir=/liaoweiduo/datasets
 # Omniglot
 #python main.py --datasource=Omniglot_84 --datadir=/liaoweiduo/datasets --metatrain_iterations=50000 --meta_batch_size=4 --update_batch_size=1 --update_lr=0.01 --num_updates=5 --num_classes=5 --logdir=/liaoweiduo/ARML/logs --num_filters=32 --hidden_dim=128 --emb_loss_weight=0.01 --test_dataset=0 --train=False --test_epoch=49000
 
-# Bird results:
 
-
-# Aircraft results:
-
-
-# DTD_Texture results:
-
-
-
-# Fungi results:
-
-
-# mini-imagenet results:
-
-
-# traffic sign results:
-
-
-# flower results:
-
-
-# Omniglot results:
 
 
 
