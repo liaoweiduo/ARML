@@ -50,6 +50,7 @@ flags.DEFINE_string('datadir', './Data/', 'directory for datasets.')
 flags.DEFINE_bool('resume', False, 'resume training if there is a model available')
 flags.DEFINE_bool('train', True, 'True to train, False to test.')
 flags.DEFINE_bool('test_set', True, 'Set to true to evaluate on the the test set, False for the validation set.')
+flags.DEFINE_integer('test_seed', 6, 'test seed.')
 
 
 def train(model, saver, sess, exp_string, data_generator, resume_itr=0):
@@ -192,7 +193,7 @@ def main():
             labelb = tf.slice(label_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
             input_tensors = {'inputa': inputa, 'inputb': inputb, 'labela': labela, 'labelb': labelb}
         else:
-            random.seed(6)
+            random.seed(FLAGS.test_seed)
             if FLAGS.datasource == 'plainmulti':
                 image_tensor, label_tensor = data_generator.make_data_tensor_plainmulti(train=False)
             elif FLAGS.datasource == 'artmulti':
@@ -221,7 +222,7 @@ def main():
             labelb = tf.slice(label_tensor, [0, num_classes * FLAGS.update_batch_size, 0], [-1, -1, -1])
             input_tensors = {'inputa': inputa, 'inputb': inputb, 'labela': labela, 'labelb': labelb}
         else:
-            random.seed(6)
+            random.seed(FLAGS.test_seed)
             image_tensor, label_tensor = data_generator.make_data_tensor_single(sess=sess, train=False)
 
             inputa = tf.slice(image_tensor, [0, 0, 0], [-1, num_classes * FLAGS.update_batch_size, -1])
