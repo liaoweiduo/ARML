@@ -146,11 +146,12 @@ def test(model, sess, data_generator):
     print('debug: metaval_accuracies.shape:', metaval_accuracies.shape)
     means = np.mean(metaval_accuracies, 0)
     stds = np.std(metaval_accuracies, 0)
-    ci95 = 1.96 * stds / np.sqrt(FLAGS.num_test_task)
+    ci95 = 1.96 * stds / np.sqrt(FLAGS.num_test_task)       # 1000
 
     print('Mean validation accuracy/loss, stddev, and confidence intervals')
     print((means, stds, ci95))
 
+    return means[-1]
 
 def main():
     sess = tf.InteractiveSession()
@@ -267,7 +268,8 @@ def main():
     if FLAGS.train:
         train(model, saver, sess, exp_string, data_generator, resume_itr)
     else:
-        test(model, sess, data_generator)
+        test_acc = test(model, sess, data_generator)
+        print('test_acc:', test_acc)
 
 
 if __name__ == "__main__":
